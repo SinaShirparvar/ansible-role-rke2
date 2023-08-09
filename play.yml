@@ -1,0 +1,13 @@
+- name: Deploy RKE2
+  hosts: all
+  become: yes
+  vars:
+    disable_kube_proxy: true
+    rke2_custom_registry_mirrors:
+      - name:
+        endpoint: {https://registry.dc.afranet.co}
+        rewrite: '"^rancher/(.*)": "mirrorproject/rancher-images/$1"'
+    rke2_cni: cilium
+
+  roles:
+     - role: ansible-role-rke2
